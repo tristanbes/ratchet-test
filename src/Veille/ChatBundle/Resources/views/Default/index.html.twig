@@ -1,0 +1,28 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <h1>Voilà la liste des messages :</h1>
+    <div id="messages"></div>
+
+    <input type="text" id="message_content" />
+    <a href="#" id="send_button">Envoyer</a>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    var conn = new WebSocket('ws://localhost:8000');
+    conn.onmessage = function(e) {
+        $('#messages').append('<div class="message"> '+ e.data +'</div>');
+    };
+
+    $("#send_button").on('click', function(e) {
+
+        e.preventDefault();
+        conn.send($("#message_content").val());
+        $("#message_content").val('');
+    });
+
+</script>
+{% endblock %}
