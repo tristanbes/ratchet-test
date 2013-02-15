@@ -12,13 +12,12 @@
 {% block javascripts %}
 {{ parent() }}
 <script>
-    var conn = new WebSocket('ws://localhost:8000');
+    var conn = new WebSocket('ws://localhost:8080');
     conn.onmessage = function(e) {
         $('#messages').append('<div class="message"> '+ e.data +'</div>');
     };
 
     $("#send_button").on('click', function(e) {
-
         e.preventDefault();
         conn.send($("#message_content").val());
         $("#message_content").val('');
